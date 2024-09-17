@@ -2,12 +2,14 @@ const pool = require('../helpers/mysql_config');
 
 // Crear un nuevo ticket
 const createTicket = (req, res) => {
-    const { extension, idDepartamento, idDispositivo, idArea, descripcion, imagen, date } = req.body;
+    const { extension, idDepartamento, idDispositivo, idArea, descripcion, imagen } = req.body;
 
     // Validación 
-    if (!extension || !idDepartamento || !idDispositivo || !idArea || !descripcion || !date) {
+    if (!extension || !idDepartamento || !idDispositivo || !idArea || !descripcion) {
         return res.status(400).json({ message: 'Todos los campos son requeridos' });
     }
+
+    const date = new Date().toISOString();
 
     const query = `INSERT INTO tickets (extension, idDepartamento, idDispositivo, idArea, descripcion, imagen, date) 
                    VALUES (?, ?, ?, ?, ?, ?, ?)`;
